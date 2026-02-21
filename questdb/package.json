@@ -1,0 +1,16 @@
+{
+  "name": "@fire/questdb",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "setup": "bun run src/tables.ts",
+    "sync-metadata": "bun run src/pipeline.ts --sync-metadata",
+    "typecheck": "bun x tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@fire/massive": "workspace:*",
+    "@questdb/nodejs-client": "^4.0.0"
+  }
+}

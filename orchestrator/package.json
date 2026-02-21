@@ -1,0 +1,16 @@
+{
+  "name": "@fire/orchestrator",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run index.ts",
+    "typecheck": "bun x tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@fire/massive": "workspace:*",
+    "@fire/questdb": "workspace:*",
+    "@polygon.io/client-js": "^7.4.0"
+  }
+}

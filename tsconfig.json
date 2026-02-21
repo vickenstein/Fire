@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "types": ["bun"]
+  },
+  "references": [
+    { "path": "./massive" },
+    { "path": "./questdb" },
+    { "path": "./orchestrator" },
+    { "path": "./web" }
+  ],
+  "files": []
+}

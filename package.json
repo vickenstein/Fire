@@ -1,0 +1,15 @@
+{
+  "name": "fire",
+  "private": true,
+  "workspaces": ["massive", "questdb", "orchestrator", "web"],
+  "scripts": {
+    "typecheck": "bun x tsc --noEmit",
+    "test": "bun test --cwd questdb",
+    "setup:questdb": "bun run --cwd questdb setup",
+    "sync-metadata": "bun run --cwd questdb sync-metadata"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.7.0"
+  }
+}

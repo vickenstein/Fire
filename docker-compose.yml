@@ -1,0 +1,56 @@
+services:
+  questdb:
+    image: questdb/questdb:8.2.3
+    ports:
+      - "9000:9000"   # Web Console + REST
+      - "9009:9009"   # ILP ingestion
+      - "8812:8812"   # PGWire queries
+    volumes:
+      - questdb-data:/var/lib/questdb
+    environment:
+      - QDB_LOG_W_STDOUT_LEVEL=ERROR
+      - QDB_PG_USER=admin
+      - QDB_PG_PASSWORD=quest
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: orchestrator/Dockerfile
+    env_file: .env
+    environment:
+      - QUESTDB_ILP_HOST=questdb
+      - QUESTDB_ILP_PORT=9009
+      - QUESTDB_PG_HOST=questdb
+      - QUESTDB_PG_PORT=8812
+      - QUESTDB_PG_USER=admin
+      - QUESTDB_PG_PASSWORD=quest
+    depends_on:
+      questdb:
+        condition: service_healthy
+    volumes:
+      - ./massive/.cache:/app/massive/.cache
+      - ./questdb/.dead-letter:/app/questdb/.dead-letter
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - QUESTDB_PG_HOST=questdb
+      - QUESTDB_PG_PORT=8812
+      - QUESTDB_PG_USER=admin
+      - QUESTDB_PG_PASSWORD=quest
+    depends_on:
+      questdb:
+        condition: service_healthy
+
+volumes:
+  questdb-data:
